@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="{% static 'css/semantic.css' %}" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+    <div class="ui red basic segment  topmenu">
+      <div class="ui borderless menu container" style="border:0;box-shadow:none;">
+          <div class="header item" style="margin-right:10px;">
+            <div class="ui image">
+              <img src="{%static 'images/index/zhiribao.png' %}" alt="" />
+            </div>
+          </div>
+          <div class="item" style="margin-right:10px;">
+            <a href="#">首页</a>
+          </div>
+          {% for cate in cates %}
+          <div class="item" style="margin-right:10px;">
+            <a href="/category/{{cate.id}}">{{cate.name}}</a>
+          </div>
+          {% endfor%}
+
+
+        <div class="right menu login">
+        {% if request.user.is_authenticated %}
+          <div class="item">
+            <a href="{% url 'profile' %}"><div class="ui image">
+                <img src="/upload/{{ request.user.profile.avatar }}" style="height:26px;width:24px;" alt="" />
+            </div>
+            <p style="margin-right:10px;margin-top:6px;color:black;">{{ request.user.username }}</p>
+            </a>
+
+          </div>
+          <div class="item">
+            <a href="{% url "logout" %}">
+                                  退出
+            </a>
+          </div>
+        {% else %}
+          <div class="item">
+            <a href="{% url 'login' %}"><div class="ui image">
+                <img src="{% static 'images/index/login.png' %}" alt="" />
+            </div>
+            <p style="margin-right:10px;margin-top:6px;color:black;">登录</p>
+            </a>
+
+          </div>
+          <div class="item">
+            <a href="{% url 'register' %}">  <div class="ui image">
+                 <img src="{% static 'images/index/register.png' %}" alt="" />
+              </div>
+              <p style="color:black;">注册</p>
+            </a>
+          </div>
+        {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="ui basic segment body container">
+      <div class="ui basic segment container topcontent" style="border:none">
+        <div class="ui horizontal basic segments" style="border:none;">
+          <div class="ui basic segment topleft" style="background: url('/upload/{{todaynew_big.image}}');background-size:cover;background-repeat: no-repeat;" >
+            <a href="#" class="ui circular red  button" style="width:80px;height:35px;padding:0px;padding-top:10px;">今日热闻</a>
+            <div class="ui basic segment title">
+                 <a href="/detail/{{todaynew_big.id}}"><p style="color:#fff;font-size:28px;margin-left:8px;">{{todaynew_big.title}}</p></a>
+            </div>
+          </div>
+          <div class="ui basic segment topright" >
+            {% for todaynew in todaynew_top3 %}
+                <div class="ui  segment" style="border:solid red 1px;">
+                  <a href="/detail/{{todaynew.id}}">
+                  <p>
+                    {{todaynew.title}}
+                  </p>
+                  </a>
+                  <span style="color:rgb(195, 200, 194)">{{todaynew.publish_time | date:"Y-m-d"}}</span>
+                </div>
+             {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="ui  grid container">
+      {% for index_recommend in index_recommendlist %}
+        <div class="four wide column">
+         <div class="ui basic segment" style="background:url('/upload/{{index_recommend.image}}');background-size: cover;
+         background-repeat: no-repeat;">
+           <div class="ui basic segment title">
+                <p style="color:#fff;font-size:18px;margin-left:0px;">{{index_recommend.title}}</p>
+           </div>
+         </div>
+       </div>
+      {% endfor %}
+      </div>
+
+      <div class="ui horizontal basic segments bottomcontent">
+        <div class="ui segment bottomleft" style="border:none;box-shadow:none;">
+          {% for article in article_list %}
+          <div class="ui segment article" style="border:none;box-shadow:none;">
+            <div class="ui image">
+              <img src="/upload/{{article.image}}" alt="" />
+            </div>
+            <div class="ui segment articlecontent" style="border:none;box-shadow:none;">
+              <a href="/detail/{{article.id}}"><h3><b>{{article.title}}</b></h3></a>
+              <p>
+                {{article.abstract}}
+              </p>
+              <span style="color:rgb(206, 208, 204);position:absolute;transform:translate(0,100%);bottom:10%">{{article.publish_time | date:"Y-m-d"}}</span>
+            </div>
+          </div>
+          {% endfor %}
+          <div class="ui pagination menu" style="margin-left:50%;transform:translate(-50%,0%);">
+            {% if article_list.has_previous %}
+                <a href="?page={{article_list.previous_page_number}}" class="item"><i class="icon red left caret"></i></a>
+            {% else %}
+                <a href="?page={{article_list.start_index}}" class="disabled item"><i class="icon left caret"></i></a>
+            {% endif %}
+
+            {% for pagenumber in article_list.paginator.page_range %}
+               {% ifequal pagenumber article_list.number %}
+               <a href="?page={{ pagenumber }}" class="active item" style="background-color: red; color:white">
+                                        {{ pagenumber }}
+               </a>
+               {% else %}
+               <a href="?page={{ pagenumber }}" class="item">
+                                        {{ pagenumber }}
+               </a>
+               {% endifequal %}
+            {% endfor %}
+
+
+            {% if article_list.has_next %}
+                <a href="?page={{article_list.next_page_number}}" class="item"><i class="icon red right caret"></i></a>
+            {% else %}
+                <a href="?page={{article_list.paginator.num_pages}}" class="disabled item"><i class="icon right caret"></i></a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="ui segment bottomright" style="border:none;box-shadow:none;">
+          <div class="ui red segment best">
+            <h4 class="ui center aligned header"><b>编辑推荐</b></h4>
+            {% for editor_recommendtop3 in editor_recommendtop3list %}
+            <div class="ui segment top3" style="background:url('/upload/{{editor_recommendtop3.image}}');
+            background-size:cover;background-repeat:no-repeat;border-radius:0;">
+             <div class="sidebutton">
+               <img src="{% static 'images/index/redtag.png' %}" alt="" />
+               <p>Top{{ forloop.counter }}</p>
+             </div>
+             <div class="ui basic segment title" style="height:40px;padding-top:2px;">
+                  <p style="color:#fff;font-size:14px;margin-left:0px;">{{editor_recommendtop3.title}}</p>
+             </div>
+            </div>
+            {% endfor %}
+
+            {% for editor_recommend in editor_recommendlist %}
+            <div class="ui segment bestlast">
+              <img src="{% static 'images/index/Triangle.png' %}" alt="" />
+              <p>
+               {{editor_recommend.title}}
+              </p>
+             <span>{{editor_recommend.publish_time | date:"Y-m-d"}}</span>
+            </div>
+            {% endfor %}
+            <div class="ui image">
+              <img src="{% static 'images/index/ad.png' %}" alt="" style="width:300px;"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="ui basic segment bottomblack">
+    <div class="ui image">
+      <img src="{% static 'images/index/white_zhiribao.png' %}" alt="" />
+    </div>
+    <p style="color:red;margin-top:50px;font-size:20px;">
+      关于我们<span style="color:rgb(143, 143, 143)">｜</span>加入我们<span style="color:rgb(143, 143, 143)">｜</span>联系我们｜寻求报道
+    </p>
+    <p style="color:white;font-size:20px;">
+      反馈建议:<span style="color:red;">124608760@qq.com</span>
+    </p>
+    <div class="ui  basic segment wechat">
+      <img src="{% static 'images/index/qrcode.png' %}" style="margin-left:38px;"/>
+      <h2 class="ui header" style="color:rgb(255, 255, 255);margin-left:20px;">扫码关注微信号</h2>
+    </div>
+    <button type="button" name="button" class="ui circular red button backtotop">
+      <img src="{% static 'images/index/upicon.png' %}" style="position:absolute;left:18%;top:10%;">
+      <img src="{% static 'images/index/TOP.png' %}" style="position:absolute;left:18%;bottom:28%;">
+    </button>
+  </div>
+  <div class="ui basic segment bottomwhite">
+    <p>
+      Designed by Mugglecoding
+    </p>
+    <p>
+      Developed by XYX
+    </p>
+    <p style="position:absolute;right:250px;top:40px;">
+      京ICP备123878345号
+    </p>
+  </div>
+  </body>
+</html>

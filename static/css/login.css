@@ -1,0 +1,83 @@
+body{
+    background-image:url(../images/login/backgroundimg.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.ui.basic.segment.container.content{
+  width: 425px;
+
+  margin-left: 50%;
+  margin-top: 389px;
+}
+.ui.header{
+  color:red;
+  font-size: 50px !important;
+  height: 75px;
+}
+input{
+    border-radius: 31.5px!important;
+    height: 31px!important;
+    background-color: #ffffff!important;
+    border: solid 1px #ededed!important;
+}
+.field{
+  position: relative;
+}
+.two.fields > .field{
+  position: relative;
+}
+.ui.image.top{
+  position: absolute;
+  left: -20px;
+  top:10px;
+}
+.ui.image.bottom{
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: -20px;
+  margin: 0;
+}
+label{
+  font-size: 12px!important;
+  color: #9b9b9b !important;
+}
+.ui.right.floated.red.circular.button{
+    width: 102px;
+    height: 31px;
+    background-color: #f30c28;
+    margin-top: 6px;
+    margin-right: 5px;
+    font-size: 16px!important;
+    font-weight: bold;
+    padding-top: 7px;
+}
+.ui.basic.segment.container.footer{
+  position: relative;
+  margin-top: 150px;
+}
+.ui.circular.red.button.backtoindex{
+  width: 31px!important;
+  height: 62px;
+  border-radius: 15.5px;
+  background-color: #f30c28;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  left: 50%;
+  top:30px;
+  padding: 0;
+}
+img{
+  margin-left: 2px;
+}
+h4{
+    font-size: 12px!important;
+    color: #ffffff;
+    margin-left: 2px;
+}
+.ui.image.title{
+  position: relative;
+  transform: translate(-50%);
+  left: 50%;
+  top:45px;
+}

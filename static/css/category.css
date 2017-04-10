@@ -1,0 +1,126 @@
+.ui.red.basic.segment.topmenu{
+  height: 100px;
+  padding-left:140px;
+  padding-right: 140px;
+  border-bottom: 1px solid rgb(189, 189, 189);
+}
+.ui.borderless.menu.container > .item > a{
+  color: black;
+  font-weight: bold;
+}
+
+.ui.basic.segment.title{
+  background: rgba(110, 110, 110,0.7);
+  position: absolute;
+  width: 100%;
+  height: 70px;
+  left:0;
+  bottom: 0;
+}
+.ui.horizontal.basic.segments.bodycontent{
+  padding-top: 20px;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+}
+.ui.segment.bodyleft{
+  width: 700px;
+}
+.ui.segment.bodyright{
+  width: 100px;
+}
+.ui.segment.article{
+ padding: 0;
+ border-radius: 0;
+ height: 200px;
+ width: 820px;
+}
+.ui.segment.article > .ui.image{
+  float: left;
+  margin: 0;
+}
+.ui.segment.articlecontent{
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 400px;
+  height: 200px;
+  float: right;
+  padding-left: 10px;
+}
+.ui.segment.articlecontent > p{
+  color:rgb(206, 208, 204)
+}
+.ui.segment.article > .ui.image >img{
+  height: 200px;
+  width:400px;
+}
+.ui.red.segment.best{
+  border-left:none;
+  border-right:none;
+  border-bottom:none;
+  box-shadow:none;
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+.ui.segment.top3{
+  height: 120px;
+  padding-top: 0;
+  position: relative;
+  border: none;
+  box-shadow: none;
+}
+.sidebutton > p{
+  position: absolute;
+  top:0;
+  left:20px;
+  color:white;
+}
+.ui.segment.bestlast{
+  border-radius: 0;
+  height: 60px;
+  padding-top: 0;
+  border: none;
+  box-shadow: none;
+}
+.ui.segment.bestlast > img{
+  position: absolute;
+  top:4px;
+  left:0;
+}
+.ui.segment.bestlast > p{
+  font-size: 12px;
+}
+.ui.segment.bestlast > span{
+  font-size: 12px;
+  color: rgb(206, 208, 204);
+  position: absolute;
+  bottom: 0;
+}
+.ui.basic.segment.bottomblack{
+  height: 400px;
+  background-color: rgb(50,50,50);
+  padding-left: 250px;
+  padding-top: 100px;
+}
+.ui.circular.red.button.backtotop{
+  height: 60px;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  left: 50%;
+  bottom:-15%;
+}
+.ui.basic.segment.wechat{
+  position: absolute;
+  top:80px;
+  right: 250px;
+  margin-top: 0;
+}
+.ui.basic.segment.bottomwhite{
+  padding-left: 250px;
+  border-bottom: 2px solid red;
+}
+.ui.basic.segment.bottomwhite > p{
+  font-size: 20px;
+}
