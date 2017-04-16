@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render,Http404, redirect, HttpResponse
+from django.contrib.auth import authenticate,login as user_login
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from newswebsite.models import *
 from newswebsite.forms import *
@@ -28,7 +29,7 @@ def index(request):
         article_list = pagerobot.page(pagerobot.num_pages)        #如果不存在该业，返回最后一页
     except PageNotAnInteger:
         article_list = pagerobot.page(1)                          #如果页码不是一个整数，返回第一页
-    context=[]
+    context={}
     context={
       "cates":cates,
       "todaynew_big":todaynew_big,
@@ -61,7 +62,7 @@ def category(request,cate_id):
     except PageNotAnInteger:
         article_list = pagerobot.page(1)                          #如果页码不是一个整数，返回第一页
 
-    context=[]
+    context={}
     context={
       "cates":cates,
       "editor_recommendtop3list":editor_recommendtop3list,
@@ -92,7 +93,7 @@ def detail(request,article_id):
             comment.save()
             form = CommentForm()
 
-    context =[]
+    context ={}
     context ={
        "cates":cates,
        "editor_recommendtop3list":editor_recommendtop3list,
@@ -103,13 +104,49 @@ def detail(request,article_id):
     }
 
     return render(request,'detail.html',context=context)
-def login(request):
 
-    return 0
+def login(request):
+    if request.method == 'GET':
+        form = LoginForm()
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(username=username,password=password)
+            if user:
+                user_login(request,user)              #由于login方法和我自定义的login视图重名，这里将django.contrib.auth中的login方法重命名为user_login导入
+                return redirect(to='index')
+            else:
+                return HttpResponse('用户名不存在或用户名密码错误')
+
+    context={}
+    context['form'] = form
+
+    return render(request,'login.html',context=context)
 
 def register(request):
+    if request.method == 'GET':
+        form = RegisterForm()
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        print('ppppost')
+        if form.is_valid():
+           username = form.cleaned_data.get("username")
+           email = form.cleaned_data.get("email")
+           password = form.cleaned_data.get("password")
+           user = User(username=username,email=email)
+           user.set_password(password)
+           user.save()
+           userprofile = UserProfile(belong_to=user,avatar='avatar/avatar.png')
+           userprofile.save()
+           return redirect(to='login')
+        else:
+           print(form.errors)
+    context={}
+    context['form']=form
 
-    return 0
+    return render(request,'register.html',context=context)
 def profile(request):
 
     return 0
