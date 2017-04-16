@@ -56,7 +56,6 @@ class UserProfile(models.Model):
 class Comment(models.Model):
     belong_article = models.ForeignKey(Article, related_name='article')  # 评论所属的文章
     belong_user = models.ForeignKey(User, related_name='user')  # 评论者
-    to_user = models.ForeignKey(User, related_name='to_user', null=True, default=0)  # 回复的人
     words = models.CharField(max_length=200, null=False)  # 评论内容
     created = models.DateTimeField(null=False, default=now)  # 评论时间
 

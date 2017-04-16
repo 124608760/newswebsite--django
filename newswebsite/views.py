@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from newswebsite.models import Best,Category,Article
+from newswebsite.models import *
+from newswebsite.forms import *
 # Create your views here.
 def index(request):
     cates = Category.objects.all().order_by("-id") #分类列表
@@ -70,7 +71,38 @@ def category(request,cate_id):
 
 
     return render(request,'category.html',context=context)
+def detail(request,article_id):
+    cates = Category.objects.all().order_by("-id") #分类列表
 
+    editor_recommendtop3 = Best.objects.filter(select_reason="编辑推荐")[:3]
+    editor_recommendtop3list = [i.select_article for i in editor_recommendtop3] #取出三篇编辑推荐作为大标题
+
+    editor_recommend = Best.objects.filter(select_reason="编辑推荐")[3:10]
+    editor_recommendlist = [i.select_article for i in editor_recommend]     #再取出七篇编辑推荐
+
+    article = Article.objects.get(id=article_id)
+
+    comments = Comment.objects.filter(belong_article=article)
+    form = CommentForm()
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            words = form.cleaned_data.get("comment")
+            comment = Comment(belong_user=request.user,words=words,belong_article=Article.objects.get(id=article_id))
+            comment.save()
+            form = CommentForm()
+
+    context =[]
+    context ={
+       "cates":cates,
+       "editor_recommendtop3list":editor_recommendtop3list,
+       "editor_recommendlist":editor_recommendlist,
+       "article":article,
+       "comments":comments,
+       "form":form
+    }
+
+    return render(request,'detail.html',context=context)
 def login(request):
 
     return 0

@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="item" style="margin-right:10px;">
-            <a href="#">首页</a>
+            <a href="{% url 'index' %}">首页</a>
           </div>
           {% for cate in cates %}
           <div class="item" style="margin-right:10px;">
@@ -87,11 +87,13 @@
       <div class="ui  grid container">
       {% for index_recommend in index_recommendlist %}
         <div class="four wide column">
+          <a href="/detail/{{index_recommend.id}}">
          <div class="ui basic segment" style="background:url('/upload/{{index_recommend.image}}');background-size: cover;
          background-repeat: no-repeat;">
-           <div class="ui basic segment title">
+            <div class="ui basic segment title">
                 <p style="color:#fff;font-size:18px;margin-left:0px;">{{index_recommend.title}}</p>
            </div>
+          </a>
          </div>
        </div>
       {% endfor %}
@@ -144,26 +146,36 @@
           <div class="ui red segment best">
             <h4 class="ui center aligned header"><b>编辑推荐</b></h4>
             {% for editor_recommendtop3 in editor_recommendtop3list %}
+
             <div class="ui segment top3" style="background:url('/upload/{{editor_recommendtop3.image}}');
             background-size:cover;background-repeat:no-repeat;border-radius:0;">
              <div class="sidebutton">
                <img src="{% static 'images/index/redtag.png' %}" alt="" />
                <p>Top{{ forloop.counter }}</p>
              </div>
+
              <div class="ui basic segment title" style="height:40px;padding-top:2px;">
-                  <p style="color:#fff;font-size:14px;margin-left:0px;">{{editor_recommendtop3.title}}</p>
+                  <p style="font-size:14px;margin-left:0px;"><a href="/detail/{{editor_recommendtop3.id}}" style="color:#fff;">{{editor_recommendtop3.title}}</a></p>
              </div>
+
             </div>
+
             {% endfor %}
 
             {% for editor_recommend in editor_recommendlist %}
+
             <div class="ui segment bestlast">
               <img src="{% static 'images/index/Triangle.png' %}" alt="" />
+
               <p>
+                <a href="/detail/{{editor_recommend.id}}">
                {{editor_recommend.title}}
+                </a>
               </p>
+
              <span>{{editor_recommend.publish_time | date:"Y-m-d"}}</span>
             </div>
+
             {% endfor %}
             <div class="ui image">
               <img src="{% static 'images/index/ad.png' %}" alt="" style="width:300px;"/>

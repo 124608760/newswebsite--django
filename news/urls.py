@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^index/', index, name='index'),
     url(r'^category/(?P<cate_id>\d+)/$', category, name='category'),
+    url(r'^detail/(?P<article_id>\d+)/$', detail, name='detail'),
     url(r'^login/', login, name='login'),
     url(r'^register/', register, name='register'),
     url(r'^logout/', logout, name='logout'),
