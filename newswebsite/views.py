@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,Http404, redirect, HttpResponse
 from django.contrib.auth import authenticate,login as user_login
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -130,26 +131,48 @@ def register(request):
         form = RegisterForm()
     if request.method == 'POST':
         form = RegisterForm(request.POST)
-        print('ppppost')
         if form.is_valid():
            username = form.cleaned_data.get("username")
            email = form.cleaned_data.get("email")
            password = form.cleaned_data.get("password")
            user = User(username=username,email=email)
            user.set_password(password)
-           user.save()
+           user.save()                                                         #创建用户保存
            userprofile = UserProfile(belong_to=user,avatar='avatar/avatar.png')
-           userprofile.save()
+           userprofile.save()                                                  #创建该用户的资料
            return redirect(to='login')
-        else:
-           print(form.errors)
+
     context={}
     context['form']=form
 
     return render(request,'register.html',context=context)
-def profile(request):
 
-    return 0
+@login_required(login_url='login')              #未登录则跳转到登录页面
+def profile(request):
+    if request.method == 'GET':
+        form = EditForm(initial={'username':request.user.username,'email':request.user.email})
+    if request.method == 'POST':
+        form = EditForm(request.POST,request.FILES)
+
+        if form.is_valid():
+           user = request.user
+           email = form.cleaned_data.get("email")
+           password = form.cleaned_data.get("password")
+           avatar = form.cleaned_data.get("avatar")
+           user.email = email
+           if avatar:
+                user_profile = UserProfile.objects.get(belong_to=user)
+                user_profile.avatar = avatar
+                user_profile.save()             #如果有上传头像，替换用户的头像
+           user.set_password(password)
+           user.save()
+           return redirect(to='login')
+
+    context={}
+    context['form']=form
+
+    return render(request,'profile.html',context=context)
+
 def logout(request):
 
     return 0

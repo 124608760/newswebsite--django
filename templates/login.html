@@ -11,13 +11,13 @@
     <div class="ui basic segment container content">
       <h1 class="ui center aligned header">登录</h1>
       <form class="ui form" method="post">
-        <div class="{{ field.errors|yesno:'error, ' }} field">
+        <div class="field">
           <div class="ui image top">
             <img src="{% static 'images/login/usericon.png' %}" alt="" />
           </div>
           {{form.username}}
         </div>
-        <div class="{{ field.errors|yesno:'error, ' }} field">
+        <div class="field">
           <div class="ui image top">
             <img src="{% static 'images/login/lockicon.png' %}" alt="" />
           </div>

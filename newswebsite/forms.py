@@ -44,3 +44,27 @@ class RegisterForm(forms.Form):
 
         if password_confirm != password:
            raise forms.ValidationError("两次输入的密码不一致")
+
+class EditForm(forms.Form):
+    email = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'邮箱'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'密码'}),required=False)
+    password_confirm = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'确认密码'}),required=False)
+    avatar = forms.FileField(label="上传头像")
+
+    def clean(self):
+        cleaned_data = super(EditForm,self).clean()
+        email = cleaned_data.get("email")
+        password = cleaned_data.get("password")
+        password_confirm = cleaned_data.get("password_confirm")
+
+
+        try:
+           validate_email(email)
+        except ValidationError:
+           raise forms.ValidationError("不正确的邮箱格式")
+
+        if len(password) < 6:
+           raise forms.ValidationError("密码长度至少6位")
+
+        if password_confirm != password:
+           raise forms.ValidationError("两次输入的密码不一致")
