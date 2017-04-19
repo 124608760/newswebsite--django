@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,Http404, redirect, HttpResponse
-from django.contrib.auth import authenticate,login as user_login
+from django.contrib.auth import authenticate,login as user_login,logout as user_logout
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from newswebsite.models import *
 from newswebsite.forms import *
@@ -174,5 +174,6 @@ def profile(request):
     return render(request,'profile.html',context=context)
 
 def logout(request):
+    user_logout(request)
 
-    return 0
+    return redirect(to='login')
